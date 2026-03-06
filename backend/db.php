@@ -1,7 +1,10 @@
 <?php
-define('DB_PATH', __DIR__ . '/database.sqlite');
-define('UPLOADS_IMAGES', __DIR__ . '/../uploads/images/');
-define('UPLOADS_VIDEOS', __DIR__ . '/../uploads/videos/');
+$persistentDir = getenv('PERSISTENT_DIR') ?: __DIR__;
+$uploadsDir = getenv('PERSISTENT_DIR') ? getenv('PERSISTENT_DIR') . '/uploads/' : __DIR__ . '/../uploads/';
+
+define('DB_PATH', $persistentDir . '/database.sqlite');
+define('UPLOADS_IMAGES', $uploadsDir . 'images/');
+define('UPLOADS_VIDEOS', $uploadsDir . 'videos/');
 
 function getDB(): PDO {
     static $pdo = null;

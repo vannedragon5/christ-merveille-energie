@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: christ-merveille-energie
+    env: php
+    plan: free
+    buildCommand: "mkdir -p persistent/uploads/images persistent/uploads/videos && ln -s $(pwd)/persistent/uploads $(pwd)/uploads"
+    startCommand: "apache2-foreground" # Render gère ça par défaut pour le PHP
+    envVars:
+      - key: PERSISTENT_DIR
+        value: /var/www/html/persistent
+    disk:
+      name: cme-data
+      mountPath: /var/www/html/persistent
+      sizeGB: 1

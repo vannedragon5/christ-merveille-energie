@@ -1,0 +1,7 @@
+{
+    "name": "christ-merveille-energie/site",
+    "description": "Site vitrine avec panel admin dynamique pour Christ Merveille Energie",
+    "require": {
+        "php": ">=7.4"
+    }
+}
