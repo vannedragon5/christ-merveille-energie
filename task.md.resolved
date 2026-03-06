@@ -1,0 +1,37 @@
+# Tâches — Christ Merveille Energie
+
+## Analyse & Planification
+- [x] Lire [index.html](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/index.html), [style.css](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/style.css), [script.js](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/script.js)
+- [x] Lire les spécifications dans [admin/index.html](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/admin/index.html)
+- [x] Créer le plan d'implémentation
+
+## Backend (PHP + SQLite)
+- [x] Créer [backend/db.php](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/backend/db.php) — connexion & initialisation SQLite
+- [x] Créer [backend/messages.php](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/backend/messages.php) — réception des messages du formulaire (POST)
+- [x] Créer [backend/get_messages.php](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/backend/get_messages.php) — retourner/supprimer/marquer-lu les messages (GET, admin)
+- [x] Créer [backend/upload.php](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/backend/upload.php) — upload + galerie + suppression images & vidéos
+- [x] Créer [backend/content.php](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/backend/content.php) — lire (GET public) et sauvegarder (POST auth) le contenu
+- [x] Créer [backend/auth.php](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/backend/auth.php) — authentification admin (login/logout/check)
+- [x] Dossiers `uploads/images/` et `uploads/videos/` avec `.gitkeep`
+
+## Formulaire de contact (page principale)
+- [x] Connecter le formulaire `index.html` à `backend/messages.php` via fetch/AJAX
+- [x] Afficher une notification de succès/erreur après envoi
+- [x] Charger le contenu dynamique depuis `backend/content.php` au chargement
+
+## Panel Admin (`admin/`)
+- [x] Créer `admin/login.html` — page de connexion
+- [x] Créer `admin/index.html` — tableau de bord (stats + derniers messages + quick access)
+- [x] Créer `admin/messages.html` — liste des messages (modal détail, marquer lu, supprimer)
+- [x] Créer `admin/content.html` — éditeur de contenu (textes, numéros, WhatsApp)
+- [x] Créer `admin/media.html` — upload drag-and-drop + galerie + suppression
+- [x] Créer `admin/style.css` — design admin complet (sidebar, cards, tables, toasts…)
+- [x] Créer `admin/script.js` — logique partagée (authGuard, toast, helpers fetch)
+
+## Vérification
+- [x] Tous les fichiers créés et cohérents entre eux
+- [ ] Test formulaire → DB (requiert PHP local)
+- [ ] Test connexion admin
+- [ ] Test édition contenu
+- [ ] Test upload vidéo/image
+- [ ] Test messages

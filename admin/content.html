@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Éditer le Contenu | Admin CME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-text">
+                    <h1>Christ Merveille<span>Pro</span></h1>
+                    <p>Panel d'Administration</p>
+                </div>
+                <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Principal</div>
+                <a href="index.html" class="nav-item"><i class="fas fa-gauge-high"></i> Tableau de bord</a>
+                <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i> Messages</a>
+                <div class="nav-section-label">Contenu</div>
+                <a href="content.html" class="nav-item active"><i class="fas fa-pen-to-square"></i> Éditer le
+                    contenu</a>
+                <a href="services.html" class="nav-item"><i class="fas fa-concierge-bell"></i> Services</a>
+                <a href="media.html" class="nav-item"><i class="fas fa-photo-film"></i> Médias</a>
+                <div class="nav-section-label">Site</div>
+                <a href="../index.html" target="_blank" class="nav-item"><i class="fas fa-globe"></i> Voir le site</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btnLogout"><i class="fas fa-right-from-bracket"></i> Déconnexion</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                    Contenu <span>Modifier les textes &amp; coordonnées</span>
+                </div>
+                <div class="topbar-user">
+                    <div class="avatar" id="topbarAvatar">A</div>
+                    <span id="topbarUser">Admin</span>
+                </div>
+            </header>
+
+            <main class="page-content">
+                <form id="contentForm">
+
+                    <!-- Hero -->
+                    <div class="card" style="margin-bottom:24px;">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-house"
+                                    style="color:var(--accent);margin-right:8px;"></i>Section Accueil (Hero)</h2>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" style="grid-column:1/-1">
+                                <label>Titre principal <span class="content-key-label">hero_titre</span></label>
+                                <textarea name="hero_titre" rows="2"
+                                    placeholder="Christ Merveille Energie..."></textarea>
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1">
+                                <label>Sous-titre <span class="content-key-label">hero_sous_titre</span></label>
+                                <input type="text" name="hero_sous_titre" placeholder="Solutions solaires...">
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1">
+                                <label>Description <span class="content-key-label">hero_description</span></label>
+                                <textarea name="hero_description" rows="3"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Coordonnées -->
+                    <div class="card" style="margin-bottom:24px;">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-address-card"
+                                    style="color:var(--accent);margin-right:8px;"></i>Coordonnées &amp; Contact</h2>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Numéro WhatsApp (sans +) <span
+                                        class="content-key-label">whatsapp_numero</span></label>
+                                <input type="text" name="whatsapp_numero" placeholder="2290166874093">
+                            </div>
+                            <div class="form-group">
+                                <label>Téléphone affiché <span class="content-key-label">telephone</span></label>
+                                <input type="text" name="telephone" placeholder="+229 01 66 87 40 93...">
+                            </div>
+                            <div class="form-group" style="grid-column:1/-1">
+                                <label>Email <span class="content-key-label">email</span></label>
+                                <input type="email" name="email" placeholder="contact@example.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- À propos -->
+                    <div class="card" style="margin-bottom:24px;">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-user"
+                                    style="color:var(--accent);margin-right:8px;"></i>Section À Propos</h2>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group" style="grid-column:1/-1">
+                                <label>Titre <span class="content-key-label">apropos_titre</span></label>
+                                <input type="text" name="apropos_titre">
+                            </div>
+                            <div class="form-group">
+                                <label>Paragraphe 1 <span class="content-key-label">apropos_texte1</span></label>
+                                <textarea name="apropos_texte1" rows="4"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>Paragraphe 2 <span class="content-key-label">apropos_texte2</span></label>
+                                <textarea name="apropos_texte2" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="card" style="margin-bottom:24px;">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-layer-group"
+                                    style="color:var(--accent);margin-right:8px;"></i>Pied de page</h2>
+                        </div>
+                        <div class="form-group">
+                            <label>Texte footer <span class="content-key-label">footer_texte</span></label>
+                            <input type="text" name="footer_texte">
+                        </div>
+                    </div>
+
+                    <!-- Services Title -->
+                    <div class="card" style="margin-bottom:24px;">
+                        <div class="card-header">
+                            <h2 class="card-title"><i class="fas fa-concierge-bell"
+                                    style="color:var(--accent);margin-right:8px;"></i>Titres Section Services</h2>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Titre de section <span class="content-key-label">services_titre</span></label>
+                                <input type="text" name="services_titre">
+                            </div>
+                            <div class="form-group">
+                                <label>Sous-titre de section <span
+                                        class="content-key-label">services_sous_titre</span></label>
+                                <input type="text" name="services_sous_titre">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit -->
+                    <div style="display:flex;justify-content:flex-end;gap:12px;">
+                        <button type="button" class="btn btn-outline" id="btnReset">
+                            <i class="fas fa-rotate-left"></i> Réinitialiser
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="btnSave">
+                            <i class="fas fa-floppy-disk"></i> Sauvegarder
+                        </button>
+                    </div>
+
+                </form>
+            </main>
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+    <script>
+        async function loadContent() {
+            try {
+                const data = await apiGet('../backend/content.php');
+                const content = data.content ?? {};
+                const form = document.getElementById('contentForm');
+                for (const [key, val] of Object.entries(content)) {
+                    const el = form.querySelector(`[name="${key}"]`);
+                    if (el) el.value = val;
+                }
+            } catch {
+                showToast('Impossible de charger le contenu.', 'error');
+            }
+        }
+
+        (async () => {
+            await adminInit();
+            await loadContent();
+
+            document.getElementById('btnReset').addEventListener('click', () => {
+                if (confirm('Recharger les valeurs sauvegardées ?')) loadContent();
+            });
+
+            document.getElementById('contentForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('btnSave');
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sauvegarde...';
+
+                const formData = new FormData(e.target);
+                const data = {};
+                for (const [k, v] of formData.entries()) data[k] = v;
+
+                try {
+                    const res = await apiPost('../backend/content.php', data);
+                    if (res.success) {
+                        showToast('Contenu sauvegardé avec succès !');
+                    } else {
+                        showToast(res.error || 'Erreur lors de la sauvegarde.', 'error');
+                    }
+                } catch {
+                    showToast('Erreur réseau.', 'error');
+                } finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-floppy-disk"></i> Sauvegarder';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

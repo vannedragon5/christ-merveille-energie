@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Médias | Admin CME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 4px;
+            margin-bottom: 24px;
+            width: fit-content;
+        }
+
+        .tab-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            border: none;
+            font-family: inherit;
+            font-size: .875rem;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--muted);
+            background: transparent;
+            transition: all .2s;
+        }
+
+        .tab-btn.active {
+            background: #fff;
+            color: var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .upload-section {
+            margin-bottom: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-text">
+                    <h1>Christ Merveille<span>Pro</span></h1>
+                    <p>Panel d'Administration</p>
+                </div>
+                <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Principal</div>
+                <a href="index.html" class="nav-item"><i class="fas fa-gauge-high"></i> Tableau de bord</a>
+                <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i> Messages</a>
+                <div class="nav-section-label">Contenu</div>
+                <a href="content.html" class="nav-item"><i class="fas fa-pen-to-square"></i> Éditer le contenu</a>
+                <a href="services.html" class="nav-item"><i class="fas fa-concierge-bell"></i> Services</a>
+                <a href="media.html" class="nav-item active"><i class="fas fa-photo-film"></i> Médias</a>
+                <div class="nav-section-label">Site</div>
+                <a href="../index.html" target="_blank" class="nav-item"><i class="fas fa-globe"></i> Voir le site</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btnLogout"><i class="fas fa-right-from-bracket"></i> Déconnexion</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                    Médias <span>Images &amp; Vidéos de chantier</span>
+                </div>
+                <div class="topbar-user">
+                    <div class="avatar" id="topbarAvatar">A</div>
+                    <span id="topbarUser">Admin</span>
+                </div>
+            </header>
+
+            <main class="page-content">
+
+                <!-- Upload zone -->
+                <div class="card upload-section">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-cloud-arrow-up"
+                                style="color:var(--accent);margin-right:8px;"></i>Uploader un fichier</h2>
+                    </div>
+
+                    <div style="display:flex;gap:12px;margin-bottom:20px;align-items:center;">
+                        <label style="font-weight:500;font-size:.9rem;">Type :</label>
+                        <select id="uploadType"
+                            style="padding:8px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:inherit;outline:none">
+                            <option value="image">Image (JPG, PNG, WEBP — max 10 Mo)</option>
+                            <option value="video">Vidéo (MP4, WEBM — max 200 Mo)</option>
+                        </select>
+                    </div>
+
+                    <div class="upload-zone" id="uploadZone">
+                        <i class="fas fa-cloud-arrow-up"></i>
+                        <p>Glissez-déposez un fichier ici ou <strong>cliquez pour parcourir</strong></p>
+                        <input type="file" id="fileInput" style="display:none" accept="image/*,video/*">
+                    </div>
+
+                    <div id="progressWrap" style="display:none;margin-top:14px;">
+                        <div
+                            style="display:flex;justify-content:space-between;font-size:.8rem;color:var(--muted);margin-bottom:4px;">
+                            <span id="progressFileName"></span>
+                            <span id="progressPct">0%</span>
+                        </div>
+                        <div class="progress-bar-wrap">
+                            <div class="progress-bar" id="progressBar" style="width:0%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Galerie -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-grip"
+                                style="color:var(--accent);margin-right:8px;"></i>Galerie</h2>
+                        <button class="btn btn-outline btn-sm" id="btnRefresh"><i class="fas fa-rotate-right"></i>
+                            Actualiser</button>
+                    </div>
+
+                    <div class="tabs">
+                        <button class="tab-btn active" data-type="all">Tout</button>
+                        <button class="tab-btn" data-type="image">Images</button>
+                        <button class="tab-btn" data-type="video">Vidéos</button>
+                    </div>
+
+                    <div class="media-grid" id="mediaGrid">
+                        <div class="empty-state"><i class="fas fa-photo-film"></i>
+                            <p>Chargement...</p>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentFilter = 'all';
+        let allMedias = [];
+
+        async function loadMedias() {
+            const grid = document.getElementById('mediaGrid');
+            grid.innerHTML = `<div style="color:var(--muted);grid-column:1/-1;text-align:center;padding:40px">Chargement...</div>`;
+            try {
+                const data = await apiGet('../backend/upload.php');
+                allMedias = data.medias ?? [];
+                renderMedias();
+            } catch {
+                grid.innerHTML = `<div style="color:var(--danger);grid-column:1/-1;text-align:center;padding:30px">Erreur — serveur PHP actif ?</div>`;
+            }
+        }
+
+        function renderMedias() {
+            const grid = document.getElementById('mediaGrid');
+            const list = currentFilter === 'all' ? allMedias : allMedias.filter(m => m.type === currentFilter);
+            if (!list.length) {
+                grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><i class="fas fa-photo-film"></i><p>Aucun fichier uploadé.</p></div>`;
+                return;
+            }
+            grid.innerHTML = list.map(m => `
+    <div class="media-item">
+      ${m.type === 'image'
+                    ? `<img src="../${esc(m.chemin)}" alt="${esc(m.nom_fichier)}" class="media-thumb" loading="lazy">`
+                    : `<div class="media-video-thumb"><i class="fas fa-play-circle"></i></div>`}
+      <div class="media-info" title="${esc(m.nom_fichier)}">${esc(m.nom_fichier)}</div>
+      <div class="media-actions">
+        <a href="../${esc(m.chemin)}" target="_blank" class="btn btn-outline btn-icon btn-sm" title="Ouvrir"><i class="fas fa-eye"></i></a>
+        <button class="btn btn-danger btn-icon btn-sm" title="Supprimer" onclick="deleteMedia(${m.id})"><i class="fas fa-trash"></i></button>
+      </div>
+    </div>`).join('');
+        }
+
+        async function deleteMedia(id) {
+            if (!confirm('Supprimer ce fichier définitivement ?')) return;
+            try {
+                const r = await fetch(`../backend/upload.php?action=delete&id=${id}`, { method: 'POST' });
+                const d = await r.json();
+                if (d.success) { showToast('Fichier supprimé.', 'warning'); await loadMedias(); }
+                else showToast(d.error || 'Erreur.', 'error');
+            } catch { showToast('Erreur réseau.', 'error'); }
+        }
+
+        function uploadFile(file) {
+            const type = document.getElementById('uploadType').value;
+            const fmt = type === 'image' ? ['image/jpeg', 'image/png', 'image/webp', 'image/gif'] : ['video/mp4', 'video/webm', 'video/ogg', 'video/quicktime'];
+            if (!fmt.includes(file.type)) {
+                showToast('Format non supporté.', 'error'); return;
+            }
+            const maxSize = type === 'video' ? 200 * 1024 * 1024 : 10 * 1024 * 1024;
+            if (file.size > maxSize) { showToast(`Fichier trop grand.`, 'error'); return; }
+
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('type', type);
+
+            const wrap = document.getElementById('progressWrap');
+            const bar = document.getElementById('progressBar');
+            const pct = document.getElementById('progressPct');
+            const fname = document.getElementById('progressFileName');
+            wrap.style.display = 'block';
+            fname.textContent = file.name;
+            bar.style.width = '0%';
+            pct.textContent = '0%';
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '../backend/upload.php');
+
+            xhr.upload.addEventListener('progress', e => {
+                if (e.lengthComputable) {
+                    const p = Math.round(e.loaded / e.total * 100);
+                    bar.style.width = p + '%';
+                    pct.textContent = p + '%';
+                }
+            });
+
+            xhr.addEventListener('load', async () => {
+                try {
+                    const data = JSON.parse(xhr.responseText);
+                    if (data.success) {
+                        showToast('Upload réussi !');
+                        await loadMedias();
+                    } else {
+                        showToast(data.error || 'Erreur upload.', 'error');
+                    }
+                } catch { showToast('Erreur serveur.', 'error'); }
+                setTimeout(() => { wrap.style.display = 'none'; }, 2000);
+            });
+
+            xhr.addEventListener('error', () => { showToast('Erreur réseau.', 'error'); wrap.style.display = 'none'; });
+            xhr.send(formData);
+        }
+
+        (async () => {
+            await adminInit();
+            await loadMedias();
+
+            // Tabs
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentFilter = btn.dataset.type;
+                    renderMedias();
+                });
+            });
+
+            // Upload zone
+            const zone = document.getElementById('uploadZone');
+            const fileInput = document.getElementById('fileInput');
+
+            zone.addEventListener('click', () => fileInput.click());
+
+            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('drag-over'); });
+            zone.addEventListener('dragleave', () => zone.classList.remove('drag-over'));
+            zone.addEventListener('drop', e => {
+                e.preventDefault(); zone.classList.remove('drag-over');
+                if (e.dataTransfer.files[0]) uploadFile(e.dataTransfer.files[0]);
+            });
+
+            fileInput.addEventListener('change', () => {
+                if (fileInput.files[0]) uploadFile(fileInput.files[0]);
+            });
+
+            document.getElementById('btnRefresh').addEventListener('click', loadMedias);
+        })();
+    </script>
+</body>
+
+</html>

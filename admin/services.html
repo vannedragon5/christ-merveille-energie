@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gérer les Services | Admin CME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .service-item:last-child {
+            border-bottom: none;
+        }
+
+        .service-icon-preview {
+            width: 50px;
+            height: 50px;
+            background: var(--bg-light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .service-details {
+            flex-grow: 1;
+        }
+
+        .service-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .service-desc {
+            font-size: 0.9rem;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        .service-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 30px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--muted);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-text">
+                    <h1>Christ Merveille<span>Pro</span></h1>
+                    <p>Panel d'Administration</p>
+                </div>
+                <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Principal</div>
+                <a href="index.html" class="nav-item"><i class="fas fa-gauge-high"></i> Tableau de bord</a>
+                <a href="messages.html" class="nav-item"><i class="fas fa-envelope"></i> Messages</a>
+                <div class="nav-section-label">Contenu</div>
+                <a href="content.html" class="nav-item"><i class="fas fa-pen-to-square"></i> Éditer le contenu</a>
+                <a href="services.html" class="nav-item active"><i class="fas fa-concierge-bell"></i> Services</a>
+                <a href="media.html" class="nav-item"><i class="fas fa-photo-film"></i> Médias</a>
+                <div class="nav-section-label">Site</div>
+                <a href="../index.html" target="_blank" class="nav-item"><i class="fas fa-globe"></i> Voir le site</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btnLogout"><i class="fas fa-right-from-bracket"></i> Déconnexion</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                    Services <span>Gérer les prestations affichées</span>
+                </div>
+                <div class="topbar-user">
+                    <div class="avatar" id="topbarAvatar">A</div>
+                    <span id="topbarUser">Admin</span>
+                </div>
+            </header>
+
+            <main class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Liste des Services</h2>
+                        <button class="btn btn-primary btn-sm" id="btnAddService">
+                            <i class="fas fa-plus"></i> Ajouter un service
+                        </button>
+                    </div>
+                    <div id="servicesList">
+                        <!-- Liste des services -->
+                        <div style="padding:40px;text-align:center;color:var(--muted)">Chargement...</div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Modal Add/Edit -->
+    <div class="modal" id="serviceModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Ajouter un service</h3>
+                <span class="close-modal">&times;</span>
+            </div>
+            <form id="serviceForm">
+                <input type="hidden" name="id" id="serviceId">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label>Titre du service</label>
+                        <input type="text" name="titre" required>
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label>Description</label>
+                        <textarea name="description" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Icône FontAwesome</label>
+                        <input type="text" name="icon" placeholder="fas fa-bolt">
+                    </div>
+                    <div class="form-group">
+                        <label>Ordre d'affichage</label>
+                        <input type="number" name="ordre" value="0">
+                    </div>
+                    <div class="form-group" style="grid-column:1/-1">
+                        <label>Note de bas de carte (optionnel)</label>
+                        <textarea name="note" rows="2"></textarea>
+                    </div>
+                </div>
+                <div style="display:flex;justify-content:flex-end;gap:12px;margin-top:20px;">
+                    <button type="button" class="btn btn-outline close-modal">Annuler</button>
+                    <button type="submit" class="btn btn-primary" id="btnSaveService">Enregistrer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let allServices = [];
+
+        async function loadServices() {
+            try {
+                const data = await apiGet('../backend/services.php');
+                if (data.success) {
+                    allServices = data.services;
+                    renderServices();
+                }
+            } catch {
+                showToast('Erreur lors du chargement des services.', 'error');
+            }
+        }
+
+        function renderServices() {
+            const container = document.getElementById('servicesList');
+            if (!allServices.length) {
+                container.innerHTML = '<div style="padding:40px;text-align:center;color:var(--muted)">Aucun service configuré.</div>';
+                return;
+            }
+
+            container.innerHTML = allServices.map(s => `
+                <div class="service-item">
+                    <div class="service-icon-preview">
+                        <i class="${s.icon || 'fas fa-bolt'}"></i>
+                    </div>
+                    <div class="service-details">
+                        <div class="service-title">${esc(s.titre)}</div>
+                        <div class="service-desc">${esc(s.description)}</div>
+                        ${s.note ? `<div style="font-size:0.8rem;color:var(--accent);margin-top:5px;"><em>${esc(s.note)}</em></div>` : ''}
+                    </div>
+                    <div class="service-actions">
+                        <button class="btn btn-outline btn-sm" onclick="editService(${s.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteService(${s.id})"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function openModal(mode, service = null) {
+            const modal = document.getElementById('serviceModal');
+            const form = document.getElementById('serviceForm');
+            const title = document.getElementById('modalTitle');
+
+            form.reset();
+            document.getElementById('serviceId').value = '';
+
+            if (mode === 'edit' && service) {
+                title.textContent = 'Modifier le service';
+                document.getElementById('serviceId').value = service.id;
+                form.titre.value = service.titre;
+                form.description.value = service.description;
+                form.icon.value = service.icon;
+                form.ordre.value = service.ordre;
+                form.note.value = service.note;
+            } else {
+                title.textContent = 'Ajouter un service';
+            }
+
+            modal.classList.add('active');
+        }
+
+        function editService(id) {
+            const service = allServices.find(s => s.id == id);
+            if (service) openModal('edit', service);
+        }
+
+        async function deleteService(id) {
+            if (!confirm('Voulez-vous vraiment supprimer ce service ?')) return;
+            try {
+                const res = await apiPost('../backend/services.php', { action: 'delete', id });
+                if (res.success) {
+                    showToast('Service supprimé.');
+                    loadServices();
+                } else {
+                    showToast(res.error, 'error');
+                }
+            } catch {
+                showToast('Erreur réseau.', 'error');
+            }
+        }
+
+        (async () => {
+            await adminInit();
+            await loadServices();
+
+            document.getElementById('btnAddService').addEventListener('click', () => openModal('add'));
+
+            document.querySelectorAll('.close-modal').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.getElementById('serviceModal').classList.remove('active');
+                });
+            });
+
+            document.getElementById('serviceForm').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = document.getElementById('btnSaveService');
+                const formData = new FormData(e.target);
+                const data = {};
+                formData.forEach((v, k) => data[k] = v);
+
+                const id = data.id;
+                data.action = id ? 'update' : 'add';
+
+                btn.disabled = true;
+                btn.textContent = 'Enregistrement...';
+
+                try {
+                    const res = await apiPost('../backend/services.php', data);
+                    if (res.success) {
+                        showToast(res.message);
+                        document.getElementById('serviceModal').classList.remove('active');
+                        loadServices();
+                    } else {
+                        showToast(res.error, 'error');
+                    }
+                } catch {
+                    showToast('Erreur réseau.', 'error');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Enregistrer';
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

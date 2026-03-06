@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages | Admin CME</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .msg-detail-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            z-index: 200;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .msg-detail-overlay.open {
+            display: flex;
+        }
+
+        .msg-detail-box {
+            background: #fff;
+            border-radius: 14px;
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        }
+
+        .msg-detail-box h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .msg-field {
+            margin-bottom: 14px;
+        }
+
+        .msg-field label {
+            font-size: .75rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .msg-field p {
+            margin-top: 4px;
+            font-size: .95rem;
+            line-height: 1.5;
+        }
+
+        .msg-date {
+            font-size: .8rem;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="admin-layout">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-text">
+                    <h1>Christ Merveille<span>Pro</span></h1>
+                    <p>Panel d'Administration</p>
+                </div>
+                <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-label">Principal</div>
+                <a href="index.html" class="nav-item"><i class="fas fa-gauge-high"></i> Tableau de bord</a>
+                <a href="messages.html" class="nav-item active"><i class="fas fa-envelope"></i> Messages</a>
+                <div class="nav-section-label">Contenu</div>
+                <a href="content.html" class="nav-item"><i class="fas fa-pen-to-square"></i> Éditer le contenu</a>
+                <a href="services.html" class="nav-item"><i class="fas fa-concierge-bell"></i> Services</a>
+                <a href="media.html" class="nav-item"><i class="fas fa-photo-film"></i> Médias</a>
+                <div class="nav-section-label">Site</div>
+                <a href="../index.html" target="_blank" class="nav-item"><i class="fas fa-globe"></i> Voir le site</a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="btn-logout" id="btnLogout"><i class="fas fa-right-from-bracket"></i> Déconnexion</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <div class="main-content">
+            <header class="topbar">
+                <div class="topbar-title">
+                    <button class="sidebar-toggle" id="sidebarToggle"><i class="fas fa-bars"></i></button>
+                    Messages <span>Demandes clients</span>
+                </div>
+                <div class="topbar-user">
+                    <div class="avatar" id="topbarAvatar">A</div>
+                    <span id="topbarUser">Admin</span>
+                </div>
+            </header>
+
+            <main class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title"><i class="fas fa-inbox"
+                                style="color:var(--accent);margin-right:8px;"></i>Messages reçus</h2>
+                        <div style="display:flex;gap:8px;align-items:center;">
+                            <span id="statsLabel" style="font-size:.85rem;color:var(--muted);"></span>
+                            <button class="btn btn-outline btn-sm" id="btnRefresh">
+                                <i class="fas fa-rotate-right"></i> Actualiser
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nom</th>
+                                    <th>Téléphone</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
+                                    <th>Statut</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="msgBody">
+                                <tr>
+                                    <td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">
+                                        Chargement...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Detail overlay -->
+    <div class="msg-detail-overlay" id="detailOverlay">
+        <div class="msg-detail-box">
+            <h3><i class="fas fa-envelope-open" style="color:var(--accent);margin-right:8px;"></i>Détail du message</h3>
+            <div class="msg-field"><label>Nom</label>
+                <p id="detailNom"></p>
+            </div>
+            <div class="msg-field"><label>Téléphone</label>
+                <p id="detailTel"></p>
+            </div>
+            <div class="msg-field"><label>Message</label>
+                <p id="detailMsg"></p>
+            </div>
+            <div class="msg-date" id="detailDate"></div>
+            <div style="display:flex;gap:10px;margin-top:20px;">
+                <button class="btn btn-danger btn-sm" id="detailDelete"><i class="fas fa-trash"></i> Supprimer</button>
+                <button class="btn btn-outline btn-sm" id="detailClose" style="margin-left:auto"><i
+                        class="fas fa-times"></i> Fermer</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        let currentId = null;
+
+        async function loadMessages() {
+            const tbody = document.getElementById('msgBody');
+            tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:40px;color:var(--muted)">Chargement...</td></tr>`;
+            try {
+                const data = await apiGet('../backend/get_messages.php?action=list');
+                document.getElementById('statsLabel').textContent =
+                    `${data.total} message(s) — ${data.non_lus} non lu(s)`;
+                const msgs = data.messages ?? [];
+                if (!msgs.length) {
+                    tbody.innerHTML = `<tr><td colspan="7" class="empty-state" style="padding:60px"><i class="fas fa-inbox" style="font-size:2.5rem;opacity:.3;display:block;margin-bottom:12px;"></i>Aucun message reçu.</td></tr>`;
+                    return;
+                }
+                tbody.innerHTML = msgs.map(m => `
+      <tr data-id="${m.id}" style="cursor:pointer" onclick="openDetail(${m.id})">
+        <td style="color:var(--muted);font-size:.8rem">${m.id}</td>
+        <td><strong>${esc(m.nom)}</strong></td>
+        <td><a href="tel:${esc(m.telephone)}" onclick="event.stopPropagation()" style="color:var(--accent)">${esc(m.telephone)}</a></td>
+        <td class="msg-text">${esc(m.message || '—')}</td>
+        <td style="white-space:nowrap;font-size:.8rem;color:var(--muted)">${formatDate(m.date_envoi)}</td>
+        <td>${m.lu == 1
+                        ? '<span class="badge badge-green"><i class="fas fa-check"></i> Lu</span>'
+                        : '<span class="badge badge-orange"><i class="fas fa-circle"></i> Non lu</span>'}</td>
+        <td>
+          <div style="display:flex;gap:6px;" onclick="event.stopPropagation()">
+            ${m.lu == 0 ? `<button class="btn btn-outline btn-icon btn-sm" title="Marquer lu" onclick="markRead(${m.id})"><i class="fas fa-check"></i></button>` : ''}
+            <button class="btn btn-danger btn-icon btn-sm" title="Supprimer" onclick="deleteMsg(${m.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('');
+            } catch {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--danger)">Erreur — Serveur PHP actif ?</td></tr>`;
+            }
+        }
+
+        let allMessages = [];
+        async function loadAllMessages() {
+            try { const d = await apiGet('../backend/get_messages.php?action=list'); allMessages = d.messages ?? []; } catch { }
+        }
+
+        function openDetail(id) {
+            const m = allMessages.find(x => x.id == id);
+            if (!m) return;
+            currentId = id;
+            document.getElementById('detailNom').textContent = m.nom;
+            document.getElementById('detailTel').textContent = m.telephone;
+            document.getElementById('detailMsg').textContent = m.message || '(aucun message)';
+            document.getElementById('detailDate').textContent = `Reçu le ${formatDate(m.date_envoi)}`;
+            document.getElementById('detailOverlay').classList.add('open');
+            if (!m.lu) markRead(id, false);
+        }
+
+        async function markRead(id, reload = true) {
+            await apiGet(`../backend/get_messages.php?action=mark_read&id=${id}`);
+            if (reload) { await loadMessages(); await loadAllMessages(); showToast('Marqué comme lu.'); }
+        }
+
+        async function deleteMsg(id, fromDetail = false) {
+            if (!confirm('Supprimer ce message définitivement ?')) return;
+            try {
+                await apiGet(`../backend/get_messages.php?action=delete&id=${id}`);
+                if (fromDetail) document.getElementById('detailOverlay').classList.remove('open');
+                await loadMessages();
+                await loadAllMessages();
+                showToast('Message supprimé.', 'warning');
+            } catch { showToast('Erreur suppression.', 'error'); }
+        }
+
+        (async () => {
+            await adminInit();
+            await loadAllMessages();
+            await loadMessages();
+
+            document.getElementById('btnRefresh').addEventListener('click', async () => {
+                await loadAllMessages();
+                await loadMessages();
+            });
+
+            document.getElementById('detailClose').addEventListener('click', () =>
+                document.getElementById('detailOverlay').classList.remove('open'));
+
+            document.getElementById('detailDelete').addEventListener('click', () => {
+                if (currentId) deleteMsg(currentId, true);
+            });
+
+            document.getElementById('detailOverlay').addEventListener('click', e => {
+                if (e.target === document.getElementById('detailOverlay'))
+                    document.getElementById('detailOverlay').classList.remove('open');
+            });
+        })();
+    </script>
+</body>
+
+</html>

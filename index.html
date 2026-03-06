@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Photovoltaïque & Électricité Bâtiment</title>
+    <meta name="description"
+        content="Installation solaire, électricité bâtiment et formation. Service professionnel et local.">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome pour les icônes (via CDN pour la démo) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="splash_logo.jpg" alt="Logo Christ Merveille Energie" class="splash-logo">
+            <div class="spinner"></div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="header">
+        <div class="container nav-container">
+            <a href="#" class="logo">Christ Merveille Energie<span style="color: #ffb703;">Pro</span></a>
+            <nav class="nav-menu">
+                <a href="#accueil" class="nav-link">Accueil</a>
+                <a href="#apropos" class="nav-link">À Propos</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#galerie" class="nav-link">Galerie</a>
+                <a href="#contact" class="nav-link btn-contact">Nous Contacter</a>
+            </nav>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. Page d'accueil -->
+    <section id="accueil" class="hero">
+        <div class="container hero-content">
+            <h1 id="hero-title">
+                Christ Merveille Energie <br>
+                Photovoltaïque & Électricité Bâtiment
+            </h1>
+
+            <p class="hero-subtitle" id="hero-subtitle">
+                Solutions solaires et travaux électriques fiables et professionnels.
+            </p>
+
+            <p class="hero-description" id="hero-description">
+                Nous accompagnons les particuliers et les entreprises dans
+                l’installation solaire photovoltaïque et les travaux d’électricité bâtiment.
+                Travail bien fait, sécurité et respect des délais.
+            </p>
+
+            <div class="hero-buttons">
+                <a href="https://wa.me/2290166874093" class="btn btn-whatsapp">
+                    <i class="fab fa-whatsapp"></i> Discuter sur WhatsApp
+                </a>
+                <a href="#contact" class="btn btn-primary">
+                    Demander un devis
+                </a>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 2. À propos -->
+    <section id="apropos" class="section">
+        <div class="container">
+            <h2 class="section-title">À propos</h2>
+
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3 id="apropos-titre">Une expérience solide au service de vos projets.</h3>
+
+                    <p id="apropos-texte1">
+                        Bienvenue chez <strong>Christ Merveille Energie</strong>.
+                        Je suis professionnel en photovoltaïque et en électricité bâtiment,
+                        avec une expérience pratique dans les installations solaires et les travaux électriques.
+                    </p>
+
+                    <p id="apropos-texte2">
+                        J’accompagne les particuliers et les entreprises dans leurs projets,
+                        depuis l’étude jusqu’à la réalisation.
+                        Mon objectif est de proposer des solutions fiables, économiques
+                        et adaptées aux besoins de chaque client.
+                    </p>
+
+                    <ul class="about-list">
+                        <li><i class="fas fa-check-circle"></i> Travail sérieux et bien fait</li>
+                        <li><i class="fas fa-check-circle"></i> Sécurité et respect des normes</li>
+                        <li><i class="fas fa-check-circle"></i> Conseils clairs et accompagnement</li>
+                    </ul>
+                </div>
+
+                <div class="about-image">
+                    <!-- Image du professionnel -->
+                    <img src="imagePro.jpg" alt="Professionnel en Photovoltaïque et Électricité" class="about-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 3. Services -->
+    <section id="services" class="section bg-light">
+        <div class="container">
+            <h2 class="section-title" id="services-titre">Nos Services</h2>
+            <p class="section-subtitle" id="services-sous-titre">Des solutions complètes pour tous vos besoins
+                énergétiques.</p>
+
+            <div class="services-grid" id="services-grid">
+                <!-- Les services seront chargés dynamiquement ici par JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. Galerie -->
+    <section id="galerie" class="section">
+        <div class="container">
+            <h2 class="section-title">Nos Réalisations</h2>
+            <p class="section-subtitle">Découvrez la qualité de notre travail en images.</p>
+
+            <div class="gallery-intro">
+                <p>
+                    Nous publions régulièrement des photos et vidéos de nos chantiers,
+                    aussi bien en milieu urbain que rural.
+                </p>
+            </div>
+
+            <!--Conteneur pour les images-->
+            <div class="gallery-container">
+                <button class="slider-btn prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <div class="gallery-slider">
+                    <div class="gallery-track" id="gallery-images">
+                        <!-- Les images seront chargées dynamiquement ici -->
+                    </div>
+                </div>
+                <button class="slider-btn next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+
+            <h3 style="text-align: center; margin-top: 40px; margin-bottom: 20px;">Nos Réalisations Vidéos</h3>
+            <div class="video-gallery" id="gallery-videos">
+                <!-- Les vidéos seront chargées dynamiquement ici -->
+            </div>
+
+            <p style="text-align: center; margin-top: 40px;">
+                <em>D'autres vidéos et photos sont disponibles sur nos réseaux sociaux.</em>
+            </p>
+            <p class="gallery-note" style="text-align: center; margin-top: 20px;">
+                <em>Chaque image représente un travail réel réalisé avec rigueur et professionnalisme.</em>
+            </p>
+        </div>
+    </section>
+
+    <!-- 5. Commande / Contact -->
+    <section id="contact" class="section bg-blue">
+        <div class="container">
+            <h2 class="section-title text-white">Contactez-nous</h2>
+            <p class="section-subtitle text-white">Prêt à démarrer votre projet ? Une question ? Écrivez-nous.</p>
+            <p class="contact-note text-white" style="text-align: center; margin-top: 20px;">
+                Nous répondons à toutes les demandes rapidement et avec sérieux.
+            </p>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div>
+                            <h4>Appelez-nous</h4>
+                            <p>+229 01 66 87 40 93 / 01 65 26 22 88 / 01 44 21 29 82</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fab fa-whatsapp"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p>
+                                <a href="https://wa.me/2290166874093" target="_blank" style="color:black;">
+                                    Discutez en direct maintenant
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>finangnonmariano@gmail.com</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="contact-form-box">
+                    <div id="formNotif"
+                        style="display:none; padding:12px 16px; border-radius:10px; margin-bottom:16px; font-size:.9rem; text-align:center;">
+                    </div>
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-group">
+                            <label for="name">Votre Nom</label>
+                            <input type="text" id="name" name="name" placeholder="Entrez votre nom" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Votre Téléphone</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Ex: 01 67 48..." required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Votre Message</label>
+                            <textarea id="message" name="message" rows="4"
+                                placeholder="Comment pouvons-nous vous aider ?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-full" id="submitBtn">Envoyer le message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. Pied de page -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <h3>Christ Merveille Energies<span style="color: #ffb703;">Pro</span></h3>
+                <p>Photovoltaïque et électricité bâtiment, sérieux et fiable.</p>
+            </div>
+            <div class="footer-links">
+                <a href="#accueil">Accueil</a>
+                <a href="#services">Services</a>
+                <a href="#apropos">À propos</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Christ Merveille Energie. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

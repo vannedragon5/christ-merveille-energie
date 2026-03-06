@@ -1,0 +1,137 @@
+# Panel d'Administration — Christ Merveille Energie
+
+Site vitrine existant HTML/CSS/JS. Les spécifications dans [admin/index.html](file:///c:/Users/DELL/Documents/christ-merveille-energie-main/admin/index.html) demandent :
+- Modifier tout le contenu de la page (textes, images, vidéos, liens, boutons)
+- Télécharger des vidéos de chantier
+- Administration complète
+- SQLite pour stocker les messages du formulaire de contact
+- Page de consultation des messages reçus
+
+## Choix Technique
+
+**Backend : PHP + SQLite**
+- PHP est disponible nativement sous la plupart des hébergements
+- SQLite ne nécessite aucun serveur de base de données
+- Pas de dépendance externe, tout reste dans le dossier du projet
+
+> [!IMPORTANT]
+> Un serveur PHP local (XAMPP, Laragon, PHP built-in) est nécessaire pour faire tourner le backend. Le site NE fonctionnera PAS en simple double-cliquant sur [index.html](file:///c:/Users/DELL/Documents/christ-merveille-energie-main/index.html).
+
+---
+
+## Proposed Changes
+
+### Backend (nouveau dossier `backend/`)
+
+#### [NEW] `backend/db.php`
+Initialise la connexion SQLite et crée les tables :
+- `messages` (id, nom, telephone, message, date, lu)
+- `content` (id, cle, valeur) — stocke le contenu éditable
+- `admin` (id, username, password_hash)
+
+#### [NEW] `backend/auth.php`
+Gestion des sessions admin (login / logout / vérification session).
+
+#### [NEW] `backend/messages.php`
+Endpoint POST : reçoit les données du formulaire de contact, les insère en DB.
+
+#### [NEW] `backend/get_messages.php`
+Endpoint GET (admin auth requis) : retourne les messages en JSON.
+
+#### [NEW] `backend/delete_message.php`
+Endpoint POST (admin auth requis) : supprime un message par son ID.
+
+#### [NEW] `backend/mark_read.php`
+Marque un message comme lu.
+
+#### [NEW] `backend/upload.php`
+Endpoint POST (admin auth requis) : upload images (`uploads/images/`) et vidéos (`uploads/videos/`).
+
+#### [NEW] `backend/get_content.php`
+Retourne le contenu éditable (textes, liens, numéros) en JSON.
+
+#### [NEW] `backend/save_content.php`
+Endpoint POST (admin auth requis) : sauvegarde le contenu éditable en DB.
+
+---
+
+### Dossiers de médias
+
+#### [NEW] `uploads/images/.gitkeep`
+#### [NEW] `uploads/videos/.gitkeep`
+
+---
+
+### Page principale
+
+#### [MODIFY] [index.html](file:///c:/Users/DELL/Documents/christ-merveille-energie-main/index.html)
+- Le formulaire de contact enverra via `fetch()` vers `backend/messages.php`
+- Les textes éditables auront des `data-content-key` pour identification
+
+#### [MODIFY] [script.js](file:///c:/Users/DELL/Documents/christ-merveille-energie-main/script.js)
+- Ajouter la logique AJAX du formulaire de contact (avec feedback utilisateur)
+- Charger le contenu dynamique depuis `backend/get_content.php` si disponible
+
+---
+
+### Panel Admin (`admin/`)
+
+#### [MODIFY] [admin/index.html](file:///c:/Users/DELL/Documents/christ-merveille-energie-main/admin/index.html) → Tableau de bord
+- KPIs : nombre de messages, non lus, médias uploadés
+- Navigation vers les sous-sections
+
+#### [NEW] `admin/login.html`
+- Formulaire de connexion (username + mot de passe)
+- Authentification via `backend/auth.php`
+
+#### [NEW] `admin/messages.html`
+- Tableau des messages reçus (nom, téléphone, message, date, statut lu)
+- Boutons : Marquer comme lu / Supprimer
+
+#### [NEW] `admin/content.html`
+- Éditeur de contenu : fields pour titre hero, sous-titre, description, numéros de téléphone, email, liens WhatsApp
+- Aperçu en temps réel
+
+#### [NEW] `admin/media.html`
+- Upload de vidéos et images
+- Galerie des fichiers uploadés avec possibilité de supprimer
+
+#### [NEW] `admin/style.css`
+Design admin : sidebar sombre, cards, tables, formulaires — moderne et professionnel.
+
+#### [NEW] `admin/script.js`
+Logique JavaScript du panel : fetch API, upload progress, éditeur de contenu.
+
+---
+
+## Verification Plan
+
+### Tests manuels (PHP local requis)
+
+1. **Lancer le serveur** :
+   ```
+   cd c:\Users\DELL\Documents\christ-merveille-energie-main
+   php -S localhost:8000
+   ```
+
+2. **Formulaire de contact** :
+   - Ouvrir `http://localhost:8000`
+   - Remplir et soumettre le formulaire de contact
+   - Vérifier le message de succès affiché
+
+3. **Login admin** :
+   - Ouvrir `http://localhost:8000/admin/login.html`
+   - Se connecter avec `admin` / `admin123`
+   - Vérifier la redirection vers le dashboard
+
+4. **Consultation messages** :
+   - Aller dans l'onglet Messages du panel admin
+   - Vérifier que les messages soumis apparaissent
+
+5. **Upload vidéo/image** :
+   - Aller dans Médias, uploader un fichier
+   - Vérifier l'apparition dans la galerie
+
+6. **Édition de contenu** :
+   - Modifier un texte dans l'éditeur de contenu
+   - Recharger la page principale pour voir les changements

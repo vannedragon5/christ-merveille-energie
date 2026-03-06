@@ -1,0 +1,82 @@
+# Walkthrough — Christ Merveille Energie (Complet)
+
+## Ce qui a été réalisé
+
+Le projet est un site vitrine HTML/CSS/JS avec un **panel d'administration PHP + SQLite** complet.
+
+---
+
+## Arborescence finale
+
+```
+christ-merveille-energie-main/
+├── index.html          ← Site vitrine (formulaire AJAX connecté)
+├── style.css
+├── script.js           ← + AJAX contact + chargement contenu dynamique
+│
+├── backend/
+│   ├── db.php          ← SQLite init (tables: messages, content, medias, admins)
+│   ├── auth.php        ← Login / logout / check (session PHP)
+│   ├── messages.php    ← POST reçoit les messages du formulaire
+│   ├── get_messages.php← GET list/delete/mark_read (auth requis)
+│   ├── content.php     ← GET public + POST auth (sauvegarde contenu)
+│   └── upload.php      ← POST upload + GET galerie + POST delete
+│
+├── admin/
+│   ├── login.html      ← Page de connexion
+│   ├── index.html      ← Dashboard (stats, derniers messages, accès rapides)
+│   ├── messages.html   ← Gestion messages (modal détail, lu, supprimer)
+│   ├── content.html    ← Éditeur de contenu (hero, contact, à propos, footer)
+│   ├── media.html      ← Upload drag-and-drop + galerie + suppression
+│   ├── style.css       ← Design admin complet
+│   └── script.js       ← Auth guard, toasts, helpers partagés
+│
+└── uploads/
+    ├── images/
+    └── videos/
+```
+
+---
+
+## Fonctionnalités
+
+| Fonctionnalité | Statut |
+|---|---|
+| Formulaire de contact AJAX (sans rechargement) | ✅ |
+| Message de succès/erreur au visiteur | ✅ |
+| Stockage messages en SQLite | ✅ |
+| Contenu dynamique (textes/numéros depuis DB) | ✅ |
+| Connexion admin sécurisée (session PHP) | ✅ |
+| Dashboard avec stats temps réel | ✅ |
+| Liste messages avec modal + marquer lu + supprimer | ✅ |
+| Éditeur de contenu (hero, coordonnées, à propos) | ✅ |
+| Upload images/vidéos drag-and-drop + progress bar | ✅ |
+| Galerie médias avec filtre et suppression | ✅ |
+| Design admin professionnel (sidebar, cards, toasts) | ✅ |
+
+---
+
+## Lancer le projet
+
+> [!IMPORTANT]
+> PHP est **obligatoire** pour toutes les fonctionnalités dynamiques.
+
+```powershell
+cd C:\Users\DELL\Documents\christ-merveille-energie-main
+php -S localhost:8000
+```
+
+Puis ouvrir :
+- **Site vitrine** : http://localhost:8000
+- **Admin login** : http://localhost:8000/admin/login.html
+  - Identifiant : [admin](file:///C:/Users/DELL/Documents/christ-merveille-energie-main/admin/script.js#84-97)
+  - Mot de passe : `admin123`
+
+---
+
+## Notes de sécurité
+
+- Le mot de passe admin est hashé avec `password_hash()` (bcrypt)
+- Les routes admin vérifient la session avant toute action
+- Les entrées utilisateur sont filtrées côté backend
+- Le compte admin par défaut (`admin123`) doit être changé en production

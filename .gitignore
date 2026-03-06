@@ -1,0 +1,17 @@
+# Fichiers de base de données
+backend/database.sqlite
+backend/database.sqlite-shm
+backend/database.sqlite-wal
+
+# Dossiers d'uploads (images et vidéos de chantier)
+uploads/
+backend/uploads/
+
+# Fichiers temporaires ou logs
+*.log
+.DS_Store
+Thumbs.db
+
+# Autres
+.idea/
+.vscode/
